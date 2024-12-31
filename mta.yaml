@@ -36,6 +36,22 @@ modules:
     requires:
       - name: MyHANAAPP_command-db
 
+  - name: MyHANAAPP_command
+    type: approuter.nodejs
+    path: app/router
+    parameters:
+      keep-existing-routes: true
+      disk-quota: 256M
+      memory: 256M
+    requires:
+      - name: srv-api
+        group: destinations
+        properties:
+          name: srv-api # must be used in xs-app.json as well
+          url: ~{srv-url}
+          forwardAuthToken: true
+      - name: MyHANAAPP_command-auth
+
 resources:
   - name: MyHANAAPP_command-db
     type: com.sap.xs.hdi-container
